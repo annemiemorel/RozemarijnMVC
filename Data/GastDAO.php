@@ -4,10 +4,12 @@ require_once 'DBConfig.php';
 require_once 'Entities/Gast.php';
 require_once 'Entities/Login.php';
 require_once 'Exceptions/GastBestaatException.php';
+require_once 'Exceptions/FoutPaswoordException.php';
 use Data\DBConfig;
 use Entities\Login;
 use Entities\Gast;
 use Exceptions\GastBestaatException;
+use Exceptions\FoutPaswoordException;
 use PDO;
 //session_start();
 
@@ -106,7 +108,6 @@ class GastDAO {
    }  
    public function checklogin($voornaam,$paswoord){ //functie die controleert of paswoord past bij voornaam gast
        
-       
         $sql="SELECT gasten.id FROM gasten, login WHERE gasten.id=login.id and voornaam= :voornaam and paswoord= :paswoord";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD); 
         $stmt = $dbh->prepare($sql);
@@ -114,13 +115,15 @@ class GastDAO {
        $rij = $stmt->fetch(PDO::FETCH_ASSOC);
 
        if (!$rij) {  //niets gevonden
-        return false;
+        echo "false";
+        throw new FoutPaswoordException();
+        
        } else {
 //        $genre = Genre::create($rij["genre_id"], $rij["genre"]);
 //        $boek = Boek::create($rij["boek_id"], $rij["titel"], $genre);
        
         $_SESSION["gast"]=$rij["id"];
-        //echo $_SESSION["gast"]; 
+        echo $_SESSION["gast"]; 
         $dbh = null;
         return true; //wel boek gevonden met titel $titel
        }

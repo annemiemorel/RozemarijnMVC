@@ -37,13 +37,3 @@ if (isset($_GET["error"]) && $_GET["error"] == "gastbestaat") {
     <td><a href="../hoofdmenu.php" class="kaderknop">Terug naar Hoofdmenu</a></td>
     
 </tr>
-<?php
-if (isset($_GET['error'])) {
-        if ($_GET['error'] == "geennummer") { ?>
-        <font color="#ff0000">U hebt geen naam ingegeven!</font>
-        <?php  }
-       else if ($_GET['error'] == "nummerbestaatal") { ?>
-        <font color="#ff0000">Deze gast bestaat reeds!</font>
-        <?php  }
-       }
-     exit(0);?>
